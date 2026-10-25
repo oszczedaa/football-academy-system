@@ -16,6 +16,6 @@ Projekt wykorzystuje odizolowaną architekturę chmurową podzieloną na trzy wa
 3. **Warstwa danych (Database):** Bezpieczna baza danych Azure SQL odizolowana od bezpośredniego ruchu zewnętrznego.
 
 ## Schemat Architektury
-Poniższy diagram przedstawia architekturę 3-tier wdrożoną w chmurze Azure:
+Poniższy diagram przedstawia architekturę 3-tier wdrożoną w chmurze AWS:
 
 ![Architektura Systemu](docs/architektura.png)
