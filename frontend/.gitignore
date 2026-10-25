@@ -22,4 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Zmienne środowiskowe
+
 *.env
+.env
+.env.*
+!.env.example
