@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
+
 export default function App() {
   const [players, setPlayers] = useState([]);
   const [name, setName] = useState('');
@@ -10,7 +12,7 @@ export default function App() {
   const fetchPlayers = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('/api/players');
+      const res = await fetch(`${API_BASE}/players`);
       if (!res.ok) throw new Error('Błąd pobierania');
       const data = await res.json();
       setPlayers(data);
@@ -36,7 +38,7 @@ export default function App() {
     setIsLoading(true);
     setMessage('');
     try {
-      const res = await fetch('/api/players', {
+      const res = await fetch(`${API_BASE}/players`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, position: 'Napastnik' })
@@ -55,7 +57,7 @@ export default function App() {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Szkółka Piłkarska - Kadra</h1>
+      <h1>Szkółka Piłkarska - Kadra (Cloud v1.0)</h1>
       
       {isLoading && <p>Ładowanie danych...</p>}
       {message && <p style={{ fontWeight: 'bold' }}>{message}</p>}
