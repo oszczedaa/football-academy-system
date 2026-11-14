@@ -42,3 +42,35 @@ jobs:
       - name: Build Backend
         run: |
           cd backend && npm install
+deploy-web:
+    name: Deploy Warstwy Web (Frontend)
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout kodu
+        uses: actions/checkout@v4
+
+      - name: Konfiguracja Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Budowanie produkcyjne Frontendu
+        env:
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+
+      - name: Autoryzacja AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-central-1
+
+      - name: Wysłanie plików statycznych na S3 (Deploy Web)
+        run: |
+          aws s3 sync frontend/dist/ s3://${{ secrets.AWS_S3_BUCKET }} --delete
